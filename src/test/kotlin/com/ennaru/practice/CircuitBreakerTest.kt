@@ -7,12 +7,14 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.kafka.core.KafkaTemplate
 
 @SpringBootTest
-class CircuitBreakerTest() {
+class CircuitBreakerTest(
+) {
 
     @Autowired
-    val circuitBreakerService: CircuitBreakerService = CircuitBreakerService()
+    //val circuitBreakerService: CircuitBreakerService = CircuitBreakerService(@Autowired val )
 
     @BeforeEach
     fun before() = println("circuitBreak TestBefore")
@@ -23,7 +25,7 @@ class CircuitBreakerTest() {
     @Test
     @DisplayName("성공")
     fun circuitBreaker() {
-        circuitBreakerService.svc(false)
+        circuitBreakerService.svc(0,false)
     }
 
     @Test
@@ -31,13 +33,13 @@ class CircuitBreakerTest() {
     fun circuitBreak_fallback() {
 
         for(i in 1..15) {
-            circuitBreakerService.svc(true)
+            circuitBreakerService.svc(i, true)
         }
 
         Thread.sleep(1200)
 
-        for(i in 1..5) {
-            circuitBreakerService.svc(false)
+        for(i in 20..30) {
+            circuitBreakerService.svc(i,false)
         }
 
     }

@@ -1,6 +1,7 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
+	kotlin("plugin.serialization") version "1.5.0"
 	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.6"
 }
@@ -38,6 +39,9 @@ dependencies {
 	// aop
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
+	// kafka
+	implementation("org.springframework.kafka:spring-kafka")
+
 	// circuit-breaker
 	// 1. CircuitBreaker : 장애 전파 방지 기능 제공
 	implementation("io.github.resilience4j:resilience4j-circuitbreaker:${resilience4jVersion}")
@@ -53,6 +57,9 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-cache:${resilience4jVersion}")
 	// 7. spring boot annotation
 	implementation("io.github.resilience4j:resilience4j-spring-boot3:${resilience4jVersion}")
+
+	// kotlinx json
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

@@ -11,13 +11,13 @@ class CircuitBreakerController(
 
     @RequestMapping("/api/v1/call")
     fun call() : String {
-        circuitBreakerService.svc(false)
+        circuitBreakerService.svc(1, false)
         return "{ 'result' : 'ok' }"
     }
 
     @RequestMapping("/api/v1/call2")
     fun call2() : String {
-        circuitBreakerService.svc(true)
+        circuitBreakerService.svc(1, true)
         return "{ 'result' : 'ok' }"
     }
 
