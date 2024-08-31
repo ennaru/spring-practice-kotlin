@@ -1,4 +1,4 @@
-package com.ennaru.practice.redis.config
+package com.ennaru.practice.redis
 
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
