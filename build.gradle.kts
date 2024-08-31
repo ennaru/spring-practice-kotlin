@@ -42,6 +42,9 @@ dependencies {
 	// kafka
 	implementation("org.springframework.kafka:spring-kafka")
 
+	// redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
 	// circuit-breaker
 	// 1. CircuitBreaker : 장애 전파 방지 기능 제공
 	implementation("io.github.resilience4j:resilience4j-circuitbreaker:${resilience4jVersion}")
@@ -60,6 +63,9 @@ dependencies {
 
 	// kotlinx json
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.0")
+
+	// logback
+	implementation("ch.qos.logback:logback-classic:1.5.6")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
