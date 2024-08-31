@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service
 class CircuitBreakerService {
 
     @CircuitBreaker(name = CircuitBreakerConfiguration.DEFAULT_CIRCUIT, fallbackMethod = "fallback")
-    fun svc(counter: Int, fallbackYn: Boolean): Response {
+    fun svc(counter: Int, fallbackYn: Boolean, wait: Long = 0L): Response {
+        if(wait != 0L) {
+            Thread.sleep(wait)
+        }
         if(fallbackYn) {
             throw RuntimeException("임의로 발생시키는 fallback")
         }

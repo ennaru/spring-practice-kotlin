@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.core.KafkaTemplate
 
 @SpringBootTest
+@DisplayName("CircuitBreaker 테스트")
 class CircuitBreakerTest @Autowired constructor(
     val circuitBreakerService: CircuitBreakerService
 ) {
@@ -30,8 +31,8 @@ class CircuitBreakerTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("fallback 호출 시 성공")
-    fun circuitBreak_fallback() {
+    @DisplayName("failure_rate 테스트")
+    fun failureRate() {
 
         for(i in 1..15) {
             circuitBreakerService.svc(i, true)
@@ -52,5 +53,15 @@ class CircuitBreakerTest @Autowired constructor(
 
     }
 
+    @Test
+    @DisplayName("slowRate")
+    fun slowRate() {
+        for(i in 1..10) {
+            circuitBreakerService.svc(i, false, 500)
+        }
+        for(i in 1..5) {
+            circuitBreakerService.svc(i, true)
+        }
+    }
 
 }
