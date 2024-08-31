@@ -1,8 +1,6 @@
 # kafka send_config
 kafka:
-  host: 127.0.0.1
-  port: 9092
-  send: true
+  send: false
 
 spring:
   application:
@@ -13,7 +11,7 @@ spring:
       hibernate:
         format_sql: true
   redis:
-    host: 127.0.0.1
+    host: 211.210.150.47
     port: 6379
 
 # circuit_breaker configs

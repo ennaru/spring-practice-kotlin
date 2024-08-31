@@ -54,7 +54,7 @@ class CircuitBreakerTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("slowRate")
+    @DisplayName("slow_rate 테스트")
     fun slowRate() {
         for(i in 1..10) {
             circuitBreakerService.svc(i, false, 500)
