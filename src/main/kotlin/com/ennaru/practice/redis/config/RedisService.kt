@@ -30,4 +30,19 @@ class RedisService(
 
     fun remove(key: String) = redisTemplate.delete(key)
 
+    /**
+     * setIfAbsent 를 가공한 LOCK
+     * => redis에 값이 없으면 true, 값이 있으면 false
+     */
+    fun setLock(key: String): Boolean? {
+        return redisTemplate.opsForValue().setIfAbsent(key+"LCK", "LOCK", Duration.ofSeconds(10L))
+    }
+
+    /**
+     * setLock을 사용한 key release
+     */
+    fun releaseLock(key: String) {
+        redisTemplate.delete(key+"LCK")
+    }
+
 }
