@@ -38,6 +38,28 @@ class RedisTest @Autowired constructor(
 
     }
 
+    @Test
+    @DisplayName("redis timeout 테스트")
+    fun timeoutTest() {
+
+        val key = "redis_test_" + UUID.randomUUID().toString()
+
+        // expire_time 설정
+        redisService.set(key, "value", 2L)
+
+        log.info("expire_second: ${redisService.getExpire(key)}")
+
+        // value check
+        valueCheck(redisService.get(key))
+
+        // 5초 holding
+        Thread.sleep(4000)
+
+        // expire_time 이후 value 확인
+        valueCheck(redisService.get(key))
+    }
+
+
     fun valueCheck(value: Any?) {
         if(value == null) {
             log.info("value is null")
