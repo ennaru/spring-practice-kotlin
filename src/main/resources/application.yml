@@ -1,0 +1,46 @@
+# kafka send_config
+kafka:
+  send: false
+
+spring:
+  application:
+    name: spring-boot-practice-kotlin
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+# circuit_breaker configs
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failureRateThreshold: 50
+        slowCallDurationThreshold: 500
+        slowCallRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10000
+      custom:
+        failureRateThreshold: 50
+        slowCallDurationThreshold: 300
+        slowCallRateThreshold: 50
+        slidingWindowSize: 8
+        waitDurationInOpenState: 1200
+    instances:
+      hgsssss:
+        baseConfig: default
+
+# actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: "*"
