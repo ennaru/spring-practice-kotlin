@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class HealthCheckController {
 
-    @GetMapping
-    open fun healthCheck() {
+    @GetMapping("/health")
+    open fun healthCheck(): Map<String, String> = mapOf<String, String>("result" to "0")
 
-    }
 }

@@ -1,5 +1,8 @@
 package com.ennaru.practice.kafka
 
+import io.github.resilience4j.circuitbreaker.event.CircuitBreakerEvent
+import io.github.resilience4j.circuitbreaker.event.CircuitBreakerOnFailureRateExceededEvent
+import io.github.resilience4j.circuitbreaker.event.CircuitBreakerOnStateTransitionEvent
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.springframework.kafka.core.KafkaTemplate
@@ -12,19 +15,23 @@ class KafkaService(
 
     companion object {
         const val EVENT_TOPIC: String = "event-topic"
-
         const val CIRCUIT_BREAKER: String = "CIRCUIT_BREAKER"
     }
 
-    fun kafkaMessageTemplate(map: Map<String, String>): String = Json.encodeToString(map)
+    fun kafkaMessageTemplate(map: Map<String, String>): String {
+        return Json.encodeToString(KafkaVO("circuit-breaker", map))
+    }
 
-    fun circuitBreaker(e: Exception) {
+    fun circuitBreakerEvent(event: CircuitBreakerEvent) {
         val map = mapOf<String, String>(
-            "type" to CIRCUIT_BREAKER,
-            "name" to e.javaClass.simpleName,
-            "cause" to e.message.toString()
+            "circuit-breaker-name" to event.circuitBreakerName,
+            "circuit-breaker-cause" to event.javaClass.simpleName
         )
-        kafkaTemplate.send(EVENT_TOPIC, kafkaMessageTemplate(map))
+        try {
+            kafkaTemplate.send(EVENT_TOPIC, kafkaMessageTemplate(map))
+        } catch(e: Exception) {
+
+        }
     }
 
 }

@@ -1,6 +1,8 @@
 package com.ennaru.practice.circuitbreaker
 
+import com.ennaru.practice.common.vo.Response
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -9,16 +11,14 @@ class CircuitBreakerController(
     val circuitBreakerService: CircuitBreakerService
 ) {
 
-    @RequestMapping("/api/v1/call")
-    fun call() : String {
-        circuitBreakerService.svc(1, false)
-        return "{ 'result' : 'ok' }"
+    @GetMapping("/circuit/call")
+    fun call(): Response {
+        return circuitBreakerService.svc(1, false)
     }
 
-    @RequestMapping("/api/v1/call2")
-    fun call2() : String {
-        circuitBreakerService.svc(1, true)
-        return "{ 'result' : 'ok' }"
+    @GetMapping("/circuit/call/fallback")
+    fun call2(): Response {
+        return circuitBreakerService.svc(1, true)
     }
 
 }

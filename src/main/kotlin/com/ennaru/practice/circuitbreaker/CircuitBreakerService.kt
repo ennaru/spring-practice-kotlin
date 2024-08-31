@@ -1,6 +1,8 @@
 package com.ennaru.practice.circuitbreaker
 
 import com.ennaru.practice.circuitbreaker.config.CircuitBreakerConfiguration
+import com.ennaru.practice.common.vo.Response
+import com.ennaru.practice.common.vo.logger
 import com.ennaru.practice.kafka.KafkaConfiguration
 import com.ennaru.practice.kafka.KafkaService
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
@@ -9,26 +11,22 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
-class CircuitBreakerService(
-    val kafkaService: KafkaService
-) {
+class CircuitBreakerService {
 
     @CircuitBreaker(name = CircuitBreakerConfiguration.DEFAULT_CIRCUIT, fallbackMethod = "fallback")
-    fun svc(counter: Int, fallbackYn: Boolean) {
+    fun svc(counter: Int, fallbackYn: Boolean): Response {
         if(fallbackYn) {
             throw RuntimeException("임의로 발생시키는 fallback")
         }
-        println("[log] ${counter} succeed.")
+        return Response()
     }
 
-    fun fallback(e: CallNotPermittedException) {
-        println("[log] circuit-break opened.")
-        kafkaService.circuitBreaker(e)
+    fun fallback(e: CallNotPermittedException): Response {
+        return Response("2", "CircuitBreaker에 의해 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.")
     }
 
-    fun fallback(e: RuntimeException) {
-        println("[log] failed _ with RuntimeException")
-        kafkaService.circuitBreaker(e)
+    fun fallback(e: RuntimeException): Response {
+        return Response("1", "강제로 발생한 오류입니다.")
     }
 
 }

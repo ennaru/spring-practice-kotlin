@@ -10,11 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.core.KafkaTemplate
 
 @SpringBootTest
-class CircuitBreakerTest(
+class CircuitBreakerTest @Autowired constructor(
+    val circuitBreakerService: CircuitBreakerService
 ) {
-
-    @Autowired
-    //val circuitBreakerService: CircuitBreakerService = CircuitBreakerService(@Autowired val )
 
     @BeforeEach
     fun before() = println("circuitBreak TestBefore")
