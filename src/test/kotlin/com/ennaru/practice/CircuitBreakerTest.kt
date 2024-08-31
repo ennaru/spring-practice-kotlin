@@ -1,6 +1,7 @@
 package com.ennaru.practice
 
 import com.ennaru.practice.circuitbreaker.CircuitBreakerService
+import com.ennaru.practice.common.vo.logger
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -13,6 +14,8 @@ import org.springframework.kafka.core.KafkaTemplate
 class CircuitBreakerTest @Autowired constructor(
     val circuitBreakerService: CircuitBreakerService
 ) {
+
+    val log = logger()
 
     @BeforeEach
     fun before() = println("circuitBreak TestBefore")
@@ -34,7 +37,14 @@ class CircuitBreakerTest @Autowired constructor(
             circuitBreakerService.svc(i, true)
         }
 
-        Thread.sleep(1200)
+        try {
+            log.info("====test holding started====")
+            Thread.sleep(2000)
+            log.info("====test holding finished====")
+        } catch(e: Exception) {
+            log.error(e.message)
+        }
+
 
         for(i in 20..30) {
             circuitBreakerService.svc(i,false)

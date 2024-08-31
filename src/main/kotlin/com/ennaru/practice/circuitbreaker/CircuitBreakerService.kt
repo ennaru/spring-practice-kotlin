@@ -21,11 +21,11 @@ class CircuitBreakerService {
         return Response()
     }
 
-    fun fallback(e: CallNotPermittedException): Response {
+    private fun fallback(e: CallNotPermittedException): Response {
         return Response("2", "CircuitBreaker에 의해 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.")
     }
 
-    fun fallback(e: RuntimeException): Response {
+    private fun fallback(e: RuntimeException): Response {
         return Response("1", "강제로 발생한 오류입니다.")
     }
 

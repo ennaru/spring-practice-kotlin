@@ -17,7 +17,7 @@ class CircuitBreakerController(
     }
 
     @GetMapping("/circuit/call/fallback")
-    fun call2(): Response {
+    fun fallbackCall(): Response {
         return circuitBreakerService.svc(1, true)
     }
 
