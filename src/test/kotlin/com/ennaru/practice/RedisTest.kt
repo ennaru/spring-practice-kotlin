@@ -3,12 +3,12 @@ package com.ennaru.practice
 import com.ennaru.practice.common.vo.logger
 import com.ennaru.practice.redis.RedisService
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
-import kotlin.test.Test
 
 
 @SpringBootTest
