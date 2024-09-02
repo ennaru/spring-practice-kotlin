@@ -32,7 +32,7 @@ class SessionTest {
     @DisplayName("세션 메모리 테스트")
     fun sessionMemory() {
 
-        // 세션의 attribute도 결국 Map에 담기 때문에 해지 시 자동으로 메모리에서 해지되지 않습니다.
+        // 세션의 attribute는 Map에 담기에 해지 시 자동으로 메모리에서 해지되지 않습니다.
 
         // ExecutorService 생성
         val count = 20000
