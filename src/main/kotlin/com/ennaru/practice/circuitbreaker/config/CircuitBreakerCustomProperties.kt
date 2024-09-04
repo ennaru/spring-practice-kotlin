@@ -9,5 +9,6 @@ data class CircuitBreakerCustomProperties (
     val slowCallDurationThreshold: Duration,
     val slowCallRateThreshold: Float,
     val waitDurationInOpenState: Duration,
+    val minimumNumberOfCalls: Int,
     val slidingWindowSize: Int
 )

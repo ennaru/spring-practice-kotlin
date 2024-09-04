@@ -5,6 +5,7 @@
         </encoder>
     </appender>
 
+    <logger name="io.github.resilience4j" level="debug"></logger>
     <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>

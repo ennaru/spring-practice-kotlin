@@ -26,6 +26,7 @@ class CircuitBreakerConfiguration(
             .slowCallRateThreshold(customProperties.slowCallRateThreshold)               // [slow_call] 비중
             .waitDurationInOpenState(customProperties.waitDurationInOpenState)           // STATE=[OPEN]->[HALF_OPEN] 전환 전 대기시간
             .slidingWindowSize(customProperties.slidingWindowSize)
+            .minimumNumberOfCalls(customProperties.minimumNumberOfCalls)                 // CircuitBreaker 상태를 확인하기 위한 최소 호출 수입니다.
             .build(), consumer)
 //
 //    @Bean
