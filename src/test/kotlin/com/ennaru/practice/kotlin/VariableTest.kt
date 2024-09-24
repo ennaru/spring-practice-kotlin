@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
-@SpringBootTest
 @DisplayName("Kotlin에서 사용하는 Nullable Test")
 class VariableTest {
 
@@ -175,5 +174,76 @@ class VariableTest {
         println("[String?] type인 value2의 길이: ${value2?.length}")   // [null]
 
     }
+
+    @DisplayName("변수: Smart Cast 편")
+    @Test
+    fun smartCast() {
+
+        // Kotlin에서는 Smart-cast 기능을 제공합니다.
+        // 타입을 명세하지 않아도 컴파일러에서 타입을 식별하여 적절한 타입으로 Casting을 진행합니다.
+
+        // 파라미터 variable은 Any? 타입이지만
+        // if문에서 String 타입을 확인하므로 if-true 문 안에서는 String 타입으로 자동 변환됩니다.
+        val isString = fun(variable : Any?) {
+            //variable.length // Any? 타입이므로 String class에서 호출할 수 있는 length를 꺼낼 수 없습니다.
+            if(variable is String) {
+                println(variable.length)
+            } else {
+                println("not string!")
+            }
+        }
+
+        // "String" 이라는 String 타입이 들어왔으므로 "6"이 출력됩니다.
+        isString("String")
+
+        // 555 라는 Integer 타입이 들어왔으므로 "not String!"이 출력됩니다.
+        isString(555)
+
+        // Smart Cast는 if문이 아닌 when 문에서도 작동합니다.
+        val typeChecker = fun(variable : Any?) {
+            when (variable) {
+                is String -> { println("${variable.javaClass.simpleName} > ${"$variable RUN!!"}") }
+                is Boolean -> { println("${variable.javaClass.simpleName} > ${!variable}")}
+            }
+        }
+
+        // 함수 안에서 variable 값을 반대로 찍으므로 [true]가 출력됩니다.
+        typeChecker(false)
+
+        // 함수 안에서 varlable 값에 " RUN!!"을 붙였으므로 [seoul RUN!!]이 출력됩니다.
+        typeChecker("seoul")
+
+        // try-catch 절에서는 어떻게 핸들링되나요?
+        // 먼저 nullabe 타입을 선언합니다.
+        var intValue : Int? = null
+        intValue = 3
+        try {
+
+            // intValue는 [Int?] 타입이지만
+            // intValue에 값이 할당되었을 때에는 컴파일러가 자동으로 [Int] 타입으로 변환시킵니다.
+            println(intValue.mod(2))
+            println(intValue.javaClass.simpleName)
+
+            // 만약 intValue에 null을 집어넣으면
+            // 컴파일러가 자동으로 [Int?] 타입으로 변환시킵니다.
+            intValue = null
+            println(intValue?.mod(2))   // null 출력
+
+            throw Exception()
+
+        } catch(e: Exception) {
+            // 이곳에서는 intValue가 Int? 타입이어도, try {} 바깥에서 값이 할당되었기에 Int로 Smart Cast가 이루어집니다.
+            // 하지만 intValue가 null일 때 주석으로 표시된 아래 함수가 실행되면 NullPointerException이 발생합니다.
+            //println(intValue.mod(3))
+
+            // 해당 함수는 Elvis Operator를 먼저 심어 Null을 확인하기에 null을 반환합니다.
+            println(intValue.mod(3))
+        }
+
+        // Smart Cast는 컴파일러가 해당 변수의 타입이 확정되었을 때 자동으로 변환해줍니다.
+        // 그러므로 변수의 값이 수정될 가능성이 있을 때에는 Smart Cast가 작동하지 않을 수 있기에 타입 명시가 권장됩니다.
+
+    }
+
 
 }
